@@ -1,0 +1,79 @@
+# docker-compose.yml
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_BACKEND_URL=http://backend:5000
+      - REACT_APP_WEB3_PROVIDER=https://mainnet.infura.io/v3/YOUR-PROJECT-ID
+    volumes:
+      - ./frontend:/
+      - /node_modules
+    depends_on:
+      - backend
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    environment:
+      - MONGODB_URI=mongodb://mongodb:27017/web3challenges
+      - PORT=5000
+      - WEB3_PROVIDER=https://mainnet.infura.io/v3/YOUR-PROJECT-ID
+    volumes:
+      - ./backend:/
+      - /node_modules
+    depends_on:
+      - mongodb
+
+# docker-compose.yml
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_BACKEND_URL=http://backend:5000
+      - REACT_APP_WEB3_PROVIDER=https://mainnet.infura.io/v3/YOUR-PROJECT-ID
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    environment:
+      - MONGODB_URI=mongodb://mongodb:27017/web3challenges
+      - PORT=5000
+      - WEB3_PROVIDER=https://mainnet.infura.io/v3/YOUR-PROJECT-ID
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    depends_on:
+      - mongodb
+
+  mongodb:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+
+volumes:
+  mongodb_data:
