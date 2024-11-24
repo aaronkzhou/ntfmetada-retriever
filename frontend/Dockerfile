@@ -1,18 +1,16 @@
 # Frontend Dockerfile
 # ./frontend/Dockerfile
+
 FROM node:18-alpine
 
-WORKDIR /
+WORKDIR /usr/src/app
 
 COPY package*.json ./
 
-RUN npm install
+RUN yarn
 
 COPY . .
 
-# Build for production
-RUN npm run build
-
 EXPOSE 3000
 
-CMD ["npm", "start"]
+CMD ["yarn", "dev", "--", "--port", "3000", "--host"]

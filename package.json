@@ -1,0 +1,9 @@
+{
+  "name": "nft-metadata",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "stop": "docker stop $(docker ps -a -q) && docker rm $(docker ps -a -q)"
+  }
+}
